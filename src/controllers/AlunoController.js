@@ -48,6 +48,7 @@ module.exports = {
     let idCurso = req.body.idCurso;
 
     if (nome && sobrenome && telefone && email && idCurso) {
+      
       let aluno = await AlunoService.createAluno(
         nome,
         sobrenome,
@@ -55,6 +56,7 @@ module.exports = {
         email,
         idCurso
       );
+      await AlunoService.DelVagas(idCurso);
 
       json.result = {
         codigo: aluno,
@@ -102,8 +104,18 @@ module.exports = {
 
     codigo = req.params.codigo;
 
+    let curso = await AlunoService.getCursoByIdAluno(codigo);
+
+    json.result = {
+      curso
+    };
+
     await AlunoService.deleteAluno(codigo);
 
+    let id = json.result.curso[0].fk_curso;
+
+    await AlunoService.numberAddAlunos(id);
+    
     res.json(json);
   }
 };
