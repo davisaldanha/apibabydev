@@ -69,4 +69,41 @@ module.exports = {
     }
     res.json(json);
   },
+
+  updateAluno: async (req, res) => {
+    let json = {error:'', result:{}};
+
+    let codigo = req.params.codigo;
+    let nome = req.body.nome;
+    let sobrenome = req.body.sobrenome;
+    let telefone = req.body.telefone;
+    let email = req.body.email;
+    let idCurso = req.body.idCurso;    
+
+    if (codigo && nome && sobrenome && telefone && email && idCurso){
+      await AlunoService.updateAluno(codigo, nome, sobrenome, telefone, email, idCurso);
+
+      json.result = {
+        codigo,
+        nome,
+        sobrenome,
+        telefone,
+        email,
+        idCurso
+      };
+    }else{
+      json.error = 'Incomplete Fields!';
+    }
+    res.json(json);
+  },
+
+  deleteAluno: async (req, res) =>{
+    let json = {error:'', result:{}};
+
+    codigo = req.params.codigo;
+
+    await AlunoService.deleteAluno(codigo);
+
+    res.json(json);
+  }
 };

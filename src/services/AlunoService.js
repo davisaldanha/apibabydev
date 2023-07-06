@@ -43,4 +43,31 @@ module.exports = {
       );
     });
   },
+
+  updateAluno: (codigo, nome, sobrenome, telefone, email, idCurso) => {
+    return new Promise((accepted, rejected) => {
+      database.query(
+        `UPDATE aluno SET nome = '${nome}', sobrenome = '${sobrenome}', telefone = '${telefone}', email = '${email}', fk_curso = ${idCurso} WHERE idAluno = ${codigo}`,
+        (error, results) => {
+          if (error) {
+            rejected(error);
+            return;
+          }
+          accepted(results);
+        }
+      );
+    });
+  },
+
+  deleteAluno: (codigo) => {
+    return new Promise((accepted, rejected) => {
+      database.query(`DELETE FROM aluno WHERE idAluno = ${codigo}`, (error, results) => {
+        if (error) {
+          rejected(error);
+          return;
+        }
+        accepted(results);
+      });
+    });
+  }
 };
