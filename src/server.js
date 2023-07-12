@@ -8,10 +8,9 @@ server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 const routes = require('./routes');
 
-
 server.use('/api', routes);
-server.use(cors());
 
+server.use(cors())
 
 server.listen(process.env.PORT, ()=>{
     console.log(`Listening on port http://localhost:${process.env.PORT}`);

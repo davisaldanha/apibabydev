@@ -16,6 +16,7 @@ module.exports = {
         idCurso: alunos[i].fk_curso,
       });
     }
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(json);
   },
 
@@ -35,6 +36,7 @@ module.exports = {
         idCurso: alunos[i].fk_curso,
       });
     }
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(json);
   },
 
@@ -48,24 +50,28 @@ module.exports = {
     let idCurso = req.body.idCurso;
 
     if (nome && sobrenome && telefone && email && idCurso) {
-      
-      let aluno = await AlunoService.createAluno(
-        nome,
-        sobrenome,
-        telefone,
-        email,
-        idCurso
-      );
-      await AlunoService.DelVagas(idCurso);
-
-      json.result = {
-        codigo: aluno,
-        nome,
-        sobrenome,
-        telefone,
-        email,
-        idCurso,
-      };
+      let vagas = await AlunoService.returnVagas(idCurso);
+      if(vagas[0].quantidade != 0){
+        let aluno = await AlunoService.createAluno(
+          nome,
+          sobrenome,
+          telefone,
+          email,
+          idCurso
+        );
+        await AlunoService.DelVagas(idCurso);
+  
+        json.result = {
+          codigo: aluno,
+          nome,
+          sobrenome,
+          telefone,
+          email,
+          idCurso,
+        };
+      }else{
+        json.error = 'Quantidade de vagas indisponiveis!';
+      }
     } else {
       json.error = 'Incomplete Fields!';
     }
@@ -114,7 +120,7 @@ module.exports = {
 
     let id = json.result.curso[0].fk_curso;
 
-    await AlunoService.numberAddAlunos(id);
+    await AlunoService.AddVagas(id);
     
     res.json(json);
   }
