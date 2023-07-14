@@ -85,19 +85,17 @@ module.exports = {
     let nome = req.body.nome;
     let sobrenome = req.body.sobrenome;
     let telefone = req.body.telefone;
-    let email = req.body.email;
-    let idCurso = req.body.idCurso;    
+    let email = req.body.email;  
 
-    if (codigo && nome && sobrenome && telefone && email && idCurso){
-      await AlunoService.updateAluno(codigo, nome, sobrenome, telefone, email, idCurso);
+    if (codigo && nome && sobrenome && telefone && email){
+      await AlunoService.updateAluno(codigo, nome, sobrenome, telefone, email);
 
       json.result = {
         codigo,
         nome,
         sobrenome,
         telefone,
-        email,
-        idCurso
+        email
       };
     }else{
       json.error = 'Incomplete Fields!';

@@ -64,10 +64,10 @@ module.exports = {
   },
 
   //Método para atualizar as informações do aluno
-  updateAluno: (codigo, nome, sobrenome, telefone, email, idCurso) => {
+  updateAluno: (codigo, nome, sobrenome, telefone, email) => {
     return new Promise((accepted, rejected) => {
       database.query(
-        `UPDATE aluno SET nome = '${nome}', sobrenome = '${sobrenome}', telefone = '${telefone}', email = '${email}', fk_curso = ${idCurso} WHERE idAluno = ${codigo}`,
+        `UPDATE aluno SET nome = '${nome}', sobrenome = '${sobrenome}', telefone = '${telefone}', email = '${email}' WHERE idAluno = ${codigo}`,
         (error, results) => {
           if (error) {
             rejected(error);
